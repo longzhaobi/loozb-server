@@ -1,0 +1,4 @@
+/.idea
+/loozb-model/*.iml
+/loozb-web/target
+/loozb-service/*.iml
