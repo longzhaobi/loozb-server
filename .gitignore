@@ -2,3 +2,6 @@
 /loozb-model/*.iml
 /loozb-web/target
 /loozb-service/*.iml
+/loozb-web/loozb-web.iml
+/loozb-common/target
+/loozb-common/*.iml
