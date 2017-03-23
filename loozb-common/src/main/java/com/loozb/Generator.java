@@ -49,10 +49,10 @@ public class Generator {
 		mpg.setDataSource(dsc);
 		// 策略配置
 		StrategyConfig strategy = new StrategyConfig();
-		// strategy.setTablePrefix("sys_");// 此处可以修改为您的表前缀
+		 strategy.setTablePrefix(new String[] { "tb_" });// 此处可以修改为您的表前缀
 		strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-//		strategy.setInclude(new String[] { "sys_user" }); // 需要生成的表
-		 strategy.setExclude(new String[]{"sys_user"}); // 排除生成的表
+		strategy.setInclude(new String[] { "tb_article" }); // 需要生成的表
+//		 strategy.setExclude(new String[]{"sys_user"}); // 排除生成的表
 		// 字段名生成策略
 		strategy.setFieldNaming(NamingStrategy.underline_to_camel);
 		// 自定义实体父类
@@ -65,7 +65,7 @@ public class Generator {
 		// 自定义 service 父类
 		strategy.setSuperServiceClass("com.loozb.core.base.BaseService");
 		// 自定义 service 实现类父类
-		// strategy.setSuperServiceImplClass("org.ibase4j.core.base.BaseService");
+		 strategy.setSuperServiceImplClass("com.loozb.core.base.BaseServiceImpl");
 		// 自定义 controller 父类
 		strategy.setSuperControllerClass("com.loozb.core.base.AbstractController");
 		// 【实体】是否生成字段常量（默认 false）
@@ -75,21 +75,22 @@ public class Generator {
 		// public User setName(String name) {this.name = name; return this;}
 		// strategy.setEntityBuliderModel(true);
 		mpg.setStrategy(strategy);
+		String module = "blog";
 		// 包配置
 		PackageConfig pc = new PackageConfig();
 		pc.setParent("com.loozb");
-		pc.setEntity("model");
-		pc.setMapper("mapper");
-		pc.setXml("mapper.xml");
-		pc.setServiceImpl("ignore");
-		pc.setService("service");
-		pc.setController("web");
+		pc.setEntity("model."+module);
+		pc.setMapper("mapper."+module);
+		pc.setXml("mapper."+module+".xml");
+		pc.setServiceImpl("service."+module+".impl");
+		pc.setService("service."+module);
+		pc.setController("web."+module);
 		mpg.setPackageInfo(pc);
 		// 注入自定义配置，可以在 VM 中使用 cfg.abc 设置的值
 		InjectionConfig cfg = new InjectionConfig() {
 			public void initMap() {
 				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("providerClass", "ISysProvider");
+				map.put("serviceClass", "ISysProvider");
 				this.setMap(map);
 			}
 		};

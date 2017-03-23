@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
  * @author ${author}
  * @since ${date}
  */
-public interface ${entity}Service extends ${superServiceClass}<${entity}> {
+@Service
+@CacheConfig(cacheNames = ${entity})
+public class ${entity}ServiceImpl extends ${superServiceImplClass}<${entity}> implements ${entity}Service{
 	
 }

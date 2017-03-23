@@ -28,6 +28,7 @@ public class StatelessAuthcFilter extends AccessControlFilter {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
 		String accessToken = CookieUtils.getCookieValue(request, "access_token");
+		System.out.println(request.getRequestURL().toString());
 		// 将如从token中取不到token
 		if (StringUtils.isBlank(accessToken)) {
 //			onLoginFail(response);

@@ -14,7 +14,7 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="configLocation" value="classpath:mybatis-config.xml" />
 		<!-- 自动扫描mapping.xml文件 -->
-		<property name="mapperLocations" value="classpath*:com/loozb/mapper/sys/xml/*.xml" />
+		<property name="mapperLocations" value="classpath*:com/loozb/mapper/**/xml/*.xml" />
 		<property name="typeAliasesPackage" value="com.loozb.model*" />
 		<property name="globalConfig">
 			<bean class="com.baomidou.mybatisplus.entity.GlobalConfiguration">

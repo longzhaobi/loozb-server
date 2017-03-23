@@ -52,10 +52,12 @@
                 /api/login=anon
                 /*.ico=anon
                 /api/upload/*=anon
+                /api/upload/*=anon
                 /unauthorized=anon
                 /forbidden=anon
                 /sns*=anon
                 /*/api-docs=anon
+                /api/anon/**=anon
                 /callback*=anon
                 /swagger*=anon
                 /configuration/*=anon
