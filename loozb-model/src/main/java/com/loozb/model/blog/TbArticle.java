@@ -57,6 +57,11 @@ public class TbArticle extends BaseModel {
      */
 	private String type;
 
+	/**
+	 * 文章类型-1.已确认，0.未确认
+	 */
+	private String confirm;
+
 
 	public String getTitle() {
 		return title;
@@ -130,4 +135,11 @@ public class TbArticle extends BaseModel {
 		this.type = type;
 	}
 
+	public String getConfirm() {
+		return confirm;
+	}
+
+	public void setConfirm(String confirm) {
+		this.confirm = confirm;
+	}
 }

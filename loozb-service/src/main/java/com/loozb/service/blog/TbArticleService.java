@@ -1,7 +1,7 @@
 package com.loozb.service.blog;
 
-import com.loozb.model.blog.TbArticle;
 import com.loozb.core.base.BaseService;
+import com.loozb.model.blog.TbArticle;
 
 /**
  * <p>
@@ -12,5 +12,5 @@ import com.loozb.core.base.BaseService;
  * @since 2017-03-22
  */
 public interface TbArticleService extends BaseService<TbArticle> {
-	
+
 }
