@@ -24,6 +24,11 @@ public class TbClassification extends BaseModel {
 	private String name;
 
 	/**
+	 * 分类url
+	 */
+	private String url;
+
+	/**
 	 * 分类描述
 	 */
 	private String description;
@@ -41,6 +46,14 @@ public class TbClassification extends BaseModel {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public String getDescription() {

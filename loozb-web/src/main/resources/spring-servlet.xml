@@ -67,7 +67,7 @@
 	<mvc:view-resolvers>
 	    <mvc:jsp cache-views="false" prefix="/WEB-INF/jsp/" suffix=".jsp" />  
 	</mvc:view-resolvers>
-	
+
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<description>配置文件上传</description>
 		<property name="defaultEncoding" value="UTF-8" />
@@ -77,7 +77,6 @@
 		<property name="maxInMemorySize" value="40960" />
 	</bean>
 	<!-- 资源重定向(仅作为后台使用不提供静态资源) -->
-	<mvc:resources mapping="upload/**" location="/WEB-INF/upload/" cache-period="300" />
 	<mvc:resources mapping="swagger-ui.html" location="classpath:/META-INF/resources/"/>
 	<mvc:resources mapping="webjars/**" location="classpath:/META-INF/resources/webjars/"/>
 </beans>

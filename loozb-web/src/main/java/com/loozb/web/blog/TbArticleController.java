@@ -31,9 +31,11 @@ public class TbArticleController extends AbstractController<TbArticleService> {
                         @ApiParam(required = false, value = "起始页") @RequestParam(defaultValue = "1", value = "current") String current,
                         @ApiParam(required = false, value = "查询页数") @RequestParam(defaultValue = "20", value = "size") String size,
                         @ApiParam(required = false, value = "需要排序字段") @RequestParam(defaultValue = "id", value = "orderBy") String orderBy,
-                        @ApiParam(required = false, value = "查询关键字") @RequestParam(value = "keyword", required = false) String keyword) {
+                        @ApiParam(required = false, value = "查询关键字") @RequestParam(value = "keyword", required = false) String keyword,
+                        @ApiParam(required = false, value = "查询分类") @RequestParam(value = "classification", required = false) String classification) {
         Map<String, Object> params =  ParamUtil.getPageParams(current, size, keyword, orderBy);
         params.put("confirm", "1");
+        params.put("classification", classification);
         return super.query(modelMap, params);
     }
 
