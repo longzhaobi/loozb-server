@@ -29,7 +29,7 @@ public class TbArticleController extends AbstractController<TbArticleService> {
     @GetMapping("/anon/articles")
     public Object query(ModelMap modelMap,
                         @ApiParam(required = false, value = "起始页") @RequestParam(defaultValue = "1", value = "current") String current,
-                        @ApiParam(required = false, value = "查询页数") @RequestParam(defaultValue = "20", value = "size") String size,
+                        @ApiParam(required = false, value = "查询页数") @RequestParam(defaultValue = "10", value = "size") String size,
                         @ApiParam(required = false, value = "需要排序字段") @RequestParam(defaultValue = "id", value = "orderBy") String orderBy,
                         @ApiParam(required = false, value = "查询关键字") @RequestParam(value = "keyword", required = false) String keyword,
                         @ApiParam(required = false, value = "查询分类") @RequestParam(value = "classification", required = false) String classification) {
@@ -51,10 +51,22 @@ public class TbArticleController extends AbstractController<TbArticleService> {
         return super.query(modelMap,  ParamUtil.getPageParams(current, size, keyword, orderBy));
     }
 
+    /**
+     * 查询文章详情，因特殊，需要返回上一篇和下一篇的标题和ID
+     * @param modelMap
+     * @param id
+     * @return
+     */
     @ApiOperation(value = "查询文章详情")
     @GetMapping("/anon/articles/{id}")
     public Object queryById(ModelMap modelMap, @PathVariable Long id) {
-        return super.queryById(modelMap, id);
+        TbArticle article = service.queryById(id);
+        if(article != null) {
+            //增加浏览次数
+            article.setReadNum(article.getReadNum() + 1);
+            service.update(article);
+        }
+        return setSuccessModelMap(modelMap, article);
     }
 
     /**

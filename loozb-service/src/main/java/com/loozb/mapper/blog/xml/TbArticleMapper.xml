@@ -17,7 +17,7 @@
 			</if>
 			and available ='1'
 		</where>
-		ORDER BY id DESC
+		ORDER BY sort DESC, id DESC
 	</select>
 
 

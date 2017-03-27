@@ -63,6 +63,13 @@ public class TbArticle extends BaseModel {
 	private String confirm;
 
 
+	/**
+	 * 分类名称
+	 */
+	@TableField(exist = false)
+	private String classificationName;
+
+
 	public String getTitle() {
 		return title;
 	}
@@ -141,5 +148,13 @@ public class TbArticle extends BaseModel {
 
 	public void setConfirm(String confirm) {
 		this.confirm = confirm;
+	}
+
+	public String getClassificationName() {
+		return classificationName;
+	}
+
+	public void setClassificationName(String classificationName) {
+		this.classificationName = classificationName;
 	}
 }
