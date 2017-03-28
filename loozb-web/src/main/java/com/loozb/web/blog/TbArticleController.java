@@ -128,5 +128,20 @@ public class TbArticleController extends AbstractController<TbArticleService> {
         article.setConfirm(article.getConfirm().equals("1") ? "0" : "1");
         return super.update(modelMap, article);
     }
+
+    /**
+     * 置顶文章
+     * @param modelMap
+     * @param id
+     * @return
+     */
+    @PutMapping("/top/articles/{id}")
+    @ApiOperation(value = "置顶文章信息")
+    @RequiresPermissions("article:update")
+    public Object top(ModelMap modelMap, @PathVariable Long id) {
+        TbArticle article = service.queryById(id);
+        article.setSort(article.getSort() == 1 ? 0 : 1);
+        return super.update(modelMap, article);
+    }
 	
 }
