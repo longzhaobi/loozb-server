@@ -69,4 +69,9 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
         user.setRoleIds(roleIds);
         user.setRoleNames(roleNames);
     }
+
+    @Override
+    public SysUser getUserInfoByToken(String token) {
+        return (SysUser)CacheUtil.getCache().get("REDIS_SESSION:TOKEN:" + token);
+    }
 }
