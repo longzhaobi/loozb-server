@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,7 @@ public class SysUserController extends AbstractController<SysUserService> {
 
     // 查询用户列表
     @ApiOperation(value = "查询用户列表，默认查询20条")
-//    @RequiresPermissions("user:view")
+    @RequiresPermissions("user:view")
     @GetMapping
     public Object query(ModelMap modelMap,
                         @ApiParam(required = false, value = "起始页") @RequestParam(defaultValue = "1", value = "current") String current,
@@ -36,6 +37,12 @@ public class SysUserController extends AbstractController<SysUserService> {
                         @ApiParam(required = false, value = "需要排序字段") @RequestParam(defaultValue = "id", value = "orderBy") String orderBy,
                         @ApiParam(required = false, value = "查询关键字") @RequestParam(value = "keyword", required = false) String keyword) {
         return super.query(modelMap,  ParamUtil.getPageParams(current, size, keyword, orderBy));
+    }
+
+    @ApiOperation(value = "通过token获取用户信息")
+    @GetMapping("/getUserInfoByToken")
+    public Object query(ModelMap modelMap, String token) {
+        return service.getUserInfoByToken(token);
     }
 
     /**
@@ -46,7 +53,7 @@ public class SysUserController extends AbstractController<SysUserService> {
      */
     @PostMapping
     @ApiOperation(value = "创建用户信息")
-//    @RequiresPermissions("user:create")
+    @RequiresPermissions("user:create")
     public Object create(ModelMap modelMap, SysUser param) {
         Assert.idCard(param.getIdcard());
         PasswordUtil.encryptPassword(param);
@@ -61,7 +68,7 @@ public class SysUserController extends AbstractController<SysUserService> {
      */
     @PutMapping
     @ApiOperation(value = "更新用户信息")
-//    @RequiresPermissions("user:update")
+    @RequiresPermissions("user:update")
     public Object update(ModelMap modelMap, SysUser param) {
         Assert.notNull(param, "USER");
         Assert.notNull(param.getId(), "ID");
@@ -84,7 +91,7 @@ public class SysUserController extends AbstractController<SysUserService> {
      */
     @DeleteMapping("/{id}")
     @ApiOperation(value = "更新用户信息")
-//    @RequiresPermissions("user:remove")
+    @RequiresPermissions("user:remove")
     public Object remove(ModelMap modelMap, @PathVariable Long id) {
         return super.del(modelMap, id);
     }
