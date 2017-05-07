@@ -8,4 +8,5 @@ import com.loozb.model.sys.SysUser;
  * @Date: Created in 2017-3-21 14:14
  */
 public interface SysUserService extends BaseService<SysUser> {
+    SysUser getUserInfoByToken(String token);
 }
