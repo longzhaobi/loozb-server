@@ -2,6 +2,7 @@ package com.loozb.service.sys.impl;
 
 import com.loozb.core.base.BaseServiceImpl;
 import com.loozb.core.util.CacheUtil;
+import com.loozb.core.util.JsonUtil;
 import com.loozb.model.sys.SysAuth;
 import com.loozb.model.sys.SysRole;
 import com.loozb.model.sys.SysUser;
@@ -72,6 +73,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
 
     @Override
     public SysUser getUserInfoByToken(String token) {
-        return (SysUser)CacheUtil.getCache().get("REDIS_SESSION:TOKEN:" + token);
+        String result = (String)CacheUtil.getCache().get("REDIS_SESSION:TOKEN:" + token);
+        return JsonUtil.jsonToPojo(result, SysUser.class);
     }
 }
