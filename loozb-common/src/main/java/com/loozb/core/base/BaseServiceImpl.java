@@ -179,8 +179,7 @@ public abstract class BaseServiceImpl<T extends BaseModel> implements Applicatio
                     }
                 }
             }
-            record = mapper.selectById(record.getId());
-            CacheUtil.getCache().set(getCacheKey(record.getId()), record);
+            CacheUtil.getCache().del(getCacheKey(record.getId()));
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             throw new RuntimeException(e.getMessage(), e);
