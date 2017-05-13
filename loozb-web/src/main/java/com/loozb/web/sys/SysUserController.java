@@ -1,4 +1,4 @@
-package com.loozb.web.sys.user;
+package com.loozb.web.sys;
 
 import com.loozb.core.base.AbstractController;
 import com.loozb.core.support.Assert;
@@ -73,7 +73,7 @@ public class SysUserController extends AbstractController<SysUserService> {
         Assert.notNull(param, "USER");
         Assert.notNull(param.getId(), "ID");
         Assert.idCard(param.getIdcard());
-        SysUser user = (SysUser)super.queryById(modelMap, param.getId());
+        SysUser user = (SysUser)service.queryById(param.getId());
         Assert.notNull(user, "USER", param.getId());
         if(StringUtils.isNotBlank(param.getPassword())) {
             if (!param.getPassword().equals(user.getPassword())) {
