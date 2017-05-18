@@ -152,7 +152,7 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResource> impleme
 
             // 获取所有资源
             Map<String, Object> colParams = ParamUtil.getMap();
-            params.put("available", "1");
+            colParams.put("available", "1");
             List<Columns> cls = sysPermissionService.queryColumns(colParams);
             // 通过角色和资源去获取权限标识
             List<String> permission = sysRoleResourcePermissionService

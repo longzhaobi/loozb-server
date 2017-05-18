@@ -48,12 +48,13 @@ public class SysPermissionServiceImpl extends BaseServiceImpl<SysPermission> imp
         Columns page = new Columns();
         page.setDataIndex("pageName");
         page.setTitle("页面名称");
+        page.setKey("pageName");
         columns.add(page);
         for (SysPermission perm : list) {
             Columns c = new Columns();
             c.setDataIndex(perm.getPermission());
             c.setTitle(perm.getName());
-            c.setKey(perm.getId().toString());
+            c.setKey(perm.getPermission());
             columns.add(c);
         }
         return columns;
