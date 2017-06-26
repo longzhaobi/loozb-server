@@ -7,6 +7,8 @@ import com.loozb.core.util.ParamUtil;
 import com.loozb.model.sys.SysAuth;
 import com.loozb.model.sys.SysPermission;
 import com.loozb.model.sys.SysRoleResourcePermission;
+import com.loozb.service.sys.SysAuthService;
+import com.loozb.service.sys.SysPermissionService;
 import com.loozb.service.sys.SysRoleResourcePermissionService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +32,10 @@ import java.util.Map;
 public class SysRoleResourcePermissionServiceImpl extends BaseServiceImpl<SysRoleResourcePermission> implements SysRoleResourcePermissionService {
 
     @Autowired
-    private SysAuthServiceImpl sysAuthService;
+    private SysAuthService sysAuthService;
 
     @Autowired
-    private SysPermissionServiceImpl sysPermissionService;
+    private SysPermissionService sysPermissionService;
 
     /**
      * 通过角色ID获取权限和资源

@@ -54,6 +54,7 @@ public class SysPermissionServiceImpl extends BaseServiceImpl<SysPermission> imp
             Columns c = new Columns();
             c.setDataIndex(perm.getPermission());
             c.setTitle(perm.getName());
+            c.setId(perm.getId().toString());
             c.setKey(perm.getPermission());
             columns.add(c);
         }

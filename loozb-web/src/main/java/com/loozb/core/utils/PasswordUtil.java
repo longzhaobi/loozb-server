@@ -1,6 +1,6 @@
 package com.loozb.core.utils;
 
-import com.loozb.model.sys.SysUser;
+import com.loozb.model.SysUser;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;

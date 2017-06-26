@@ -1,2 +1,3 @@
 upload/imageData
 articles
+roles/auth

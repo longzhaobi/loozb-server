@@ -362,10 +362,10 @@
     <!-- 生产模式打包，发布时打包加参数：-P product 指定id为product的profile，否则-P build 指定profile的id为build-->
     <profiles>
         <profile>
-            <id>product</id>
+            <id>prod</id>
             <properties>
-                <sys.jdbc.config.path>classpath:config/product/jdbc.properties</sys.jdbc.config.path>
-                <system.config.path>classpath:config/product/system.properties</system.config.path>
+                <sys.jdbc.config.path>file:/home/config/loozb/jdbc.properties</sys.jdbc.config.path>
+                <system.config.path>file:/home/config/loozb/system.properties</system.config.path>
             </properties>
             <build>
                 <finalName>${project.name}</finalName>
@@ -385,10 +385,10 @@
             </build>
         </profile>
         <profile>
-            <id>develop</id>
+            <id>dev</id>
             <properties>
-                <sys.jdbc.config.path>classpath:config/develop/jdbc.properties</sys.jdbc.config.path>
-                <system.config.path>classpath:config/develop/system.properties</system.config.path>
+                <sys.jdbc.config.path>classpath:config/jdbc.properties</sys.jdbc.config.path>
+                <system.config.path>classpath:config/system.properties</system.config.path>
             </properties>
             <build>
                 <finalName>${project.name}</finalName>

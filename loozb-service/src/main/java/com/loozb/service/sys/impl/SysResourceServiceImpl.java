@@ -85,7 +85,6 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResource> impleme
     public List<SysResource> getMenus(Long userId) {
         // 1.先获取所有资源，因为考虑到资源定型后很少更新，所有查询资源时，需要走缓存
         Map<String, Object> params = ParamUtil.getMap();
-        params.put("available", "1");
         List<SysResource> allResource = super.queryList(params);
 
         // 2. 通过userId去获取当前用户拥有的资源ID，并且其拥有查看权限，考虑到权限变动，此处不走缓存，直接查询数据库
@@ -168,7 +167,7 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResource> impleme
                 if (!c.getDataIndex().equals("pageName")) {
                     AuthList kvss = new AuthList();
                     kvss.setName(c.getDataIndex());
-                    kvss.setValue(resource.getId() + "=" + c.getKey());
+                    kvss.setValue(resource.getId() + "=" + c.getId());
                     // 先设成全部无权限
                     kvss.setIsAuth("no");
                     // 先全部禁掉

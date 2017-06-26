@@ -3,9 +3,11 @@ package com.loozb.service.sys.impl;
 import com.loozb.core.base.BaseServiceImpl;
 import com.loozb.core.util.CacheUtil;
 import com.loozb.core.util.JsonUtil;
+import com.loozb.model.SysUser;
 import com.loozb.model.sys.SysAuth;
 import com.loozb.model.sys.SysRole;
-import com.loozb.model.sys.SysUser;
+import com.loozb.service.sys.SysAuthService;
+import com.loozb.service.sys.SysRoleService;
 import com.loozb.service.sys.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -27,10 +29,10 @@ import java.util.List;
 public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysUserService{
 
     @Autowired
-    private SysAuthServiceImpl sysAuthService;
+    private SysAuthService sysAuthService;
 
     @Autowired
-    private SysRoleServiceImpl sysRoleService;
+    private SysRoleService sysRoleService;
 
     @Override
     @Transactional
@@ -51,24 +53,28 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
     }
 
     private void packageAuthInfo(SysUser user) {
-        List<SysAuth> auths = sysAuthService.queryByUserId(user.getId());
-        String roleIds = "";
-        String roleNames = "";
-        if (auths != null && auths.size() > 0) {
-            for (int i = 0; i < auths.size(); i++) {
-                SysAuth auth = auths.get(i);
-                SysRole role = sysRoleService.queryById(auth.getRoleId());
-                if (i == 0) {
-                    roleIds += auth.getRoleId();
-                    roleNames += role.getName();
-                } else {
-                    roleIds += "," + auth.getRoleId();
-                    roleNames += "," + role.getName();
+        if(user != null) {
+            List<SysAuth> auths = sysAuthService.queryByUserId(user.getId());
+            String roleIds = "";
+            String roleNames = "";
+            if (auths != null && auths.size() > 0) {
+                for (int i = 0; i < auths.size(); i++) {
+                    SysAuth auth = auths.get(i);
+                    SysRole role = sysRoleService.queryById(auth.getRoleId());
+                    if (i == 0) {
+                        roleIds += auth.getRoleId();
+                        roleNames += role.getName();
+                    } else {
+                        roleIds += "," + auth.getRoleId();
+                        roleNames += "," + role.getName();
+                    }
                 }
             }
+            user.setRoleIds(roleIds);
+            user.setRoleNames(roleNames);
+        } else {
+            System.out.println("用户信息为空");
         }
-        user.setRoleIds(roleIds);
-        user.setRoleNames(roleNames);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.loozb.model.sys;
+package com.loozb.model;
 
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;

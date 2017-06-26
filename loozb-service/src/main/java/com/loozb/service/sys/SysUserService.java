@@ -1,7 +1,7 @@
 package com.loozb.service.sys;
 
 import com.loozb.core.base.BaseService;
-import com.loozb.model.sys.SysUser;
+import com.loozb.model.SysUser;
 
 /**
  * @Author： 龙召碧

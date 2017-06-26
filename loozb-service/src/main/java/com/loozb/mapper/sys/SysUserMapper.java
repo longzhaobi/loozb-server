@@ -1,7 +1,7 @@
 package com.loozb.mapper.sys;
 
 import com.loozb.core.base.BaseMapper;
-import com.loozb.model.sys.SysUser;
+import com.loozb.model.SysUser;
 
 /**
  * <p>

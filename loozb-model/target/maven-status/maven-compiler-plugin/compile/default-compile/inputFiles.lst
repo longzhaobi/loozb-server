@@ -1,13 +1,13 @@
+D:\web\git\loozb\loozb-server\loozb-model\src\main\java\com\loozb\model\sys\SysEvent.java
 D:\web\git\loozb\loozb-server\loozb-model\src\main\java\com\loozb\model\sys\ext\Columns.java
 D:\web\git\loozb\loozb-server\loozb-model\src\main\java\com\loozb\model\sys\SysTable.java
 D:\web\git\loozb\loozb-server\loozb-model\src\main\java\com\loozb\model\blog\TbArticle.java
-D:\web\git\loozb\loozb-server\loozb-model\src\main\java\com\loozb\model\sys\SysLog.java
-D:\web\git\loozb\loozb-server\loozb-model\src\main\java\com\loozb\model\sys\SysUser.java
 D:\web\git\loozb\loozb-server\loozb-model\src\main\java\com\loozb\model\blog\ext\MoreArticle.java
 D:\web\git\loozb\loozb-server\loozb-model\src\main\java\com\loozb\model\blog\TbMessage.java
 D:\web\git\loozb\loozb-server\loozb-model\src\main\java\com\loozb\model\sys\SysResource.java
 D:\web\git\loozb\loozb-server\loozb-model\src\main\java\com\loozb\model\sys\SysOrgan.java
 D:\web\git\loozb\loozb-server\loozb-model\src\main\java\com\loozb\model\blog\TbComment.java
+D:\web\git\loozb\loozb-server\loozb-model\src\main\java\com\loozb\model\sys\SysSession.java
 D:\web\git\loozb\loozb-server\loozb-model\src\main\java\com\loozb\model\sys\ext\AuthList.java
 D:\web\git\loozb\loozb-server\loozb-model\src\main\java\com\loozb\model\sys\SysAuth.java
 D:\web\git\loozb\loozb-server\loozb-model\src\main\java\com\loozb\model\sys\ext\Authority.java

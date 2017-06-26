@@ -1,9 +1,8 @@
 package com.loozb.core.shiro.filter;
 
+import com.loozb.core.Constants;
 import com.loozb.core.shiro.token.StatelessToken;
 import com.loozb.core.util.CookieUtils;
-import com.loozb.core.util.WebUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.web.filter.AccessControlFilter;
@@ -27,19 +26,7 @@ public class StatelessAuthcFilter extends AccessControlFilter {
 			ServletResponse servletResponse) throws Exception {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
-		String accessToken = CookieUtils.getCookieValue(request, "access_token");
-		System.out.println(request.getRequestURL().toString());
-		// 将如从token中取不到token
-		if (StringUtils.isBlank(accessToken)) {
-//			onLoginFail(response);
-			logger.error("未能获取accessToken信息");
-			return false;
-		}
-		String result = WebUtil.getUsernameByToken(accessToken);
-		if(StringUtils.isBlank(result)) {
-			onLoginFail(response);
-			return false;
-		}
+		String accessToken = CookieUtils.getCookieValue(request, Constants.CURRENT_TOKEN);
 		StatelessToken token = new StatelessToken(accessToken);
 		try {
 			getSubject(servletRequest, servletResponse).login(token);

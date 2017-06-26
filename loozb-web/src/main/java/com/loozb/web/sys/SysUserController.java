@@ -3,8 +3,9 @@ package com.loozb.web.sys;
 import com.loozb.core.base.AbstractController;
 import com.loozb.core.support.Assert;
 import com.loozb.core.util.ParamUtil;
+import com.loozb.core.util.WebUtil;
 import com.loozb.core.utils.PasswordUtil;
-import com.loozb.model.sys.SysUser;
+import com.loozb.model.SysUser;
 import com.loozb.service.sys.SysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -94,6 +95,21 @@ public class SysUserController extends AbstractController<SysUserService> {
     @RequiresPermissions("user:remove")
     public Object remove(ModelMap modelMap, @PathVariable Long id) {
         return super.del(modelMap, id);
+    }
+
+    /**
+     * 获取当前在线用户
+     * @param modelMap
+     * @return
+     */
+    @GetMapping("/current")
+    @ApiOperation(value = "获取当前用户信息")
+    @RequiresPermissions("user:view")
+    public Object current(ModelMap modelMap) {
+        Long userId = getCurrUser();
+        Integer number = WebUtil.getAllUserNumber();
+        modelMap.put("online", number);
+        return super.queryById(modelMap, userId);
     }
 
 }

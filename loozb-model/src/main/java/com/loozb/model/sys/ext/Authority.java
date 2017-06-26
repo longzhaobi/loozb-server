@@ -1,7 +1,7 @@
 package com.loozb.model.sys.ext;
 
 import com.loozb.model.sys.SysResource;
-import com.loozb.model.sys.SysUser;
+import com.loozb.model.SysUser;
 
 import java.util.List;
 import java.util.Set;

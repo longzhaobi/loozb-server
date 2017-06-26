@@ -1,9 +1,11 @@
 package com.loozb.core.util;
 
-import com.alibaba.fastjson.JSONObject;
+import com.loozb.core.Constants;
+import com.loozb.model.SysUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.shiro.session.InvalidSessionException;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.Cookie;
@@ -12,6 +14,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 /**
  * Web层辅助类
@@ -25,30 +28,17 @@ public final class WebUtil {
 
     private static Logger logger = LogManager.getLogger();
 
-    private static Long CURRENT_USER_ID = 0L;
+    public volatile static Long currentUser = 0L;
 
-    private static String CURRENT_USER_NAME = null;
-
-    /**
-     * 获取当前用户ID
-     * @return
-     */
-    public static Long getCurrentUser() {
-        return CURRENT_USER_ID;
-    }
-
-    /**
-     * 获取当前用户ID
-     * @return
-     */
-    public static String getCurrentUsername() {
-        return CURRENT_USER_NAME;
+    /** 获取当前用户 */
+    public static final Long getCurrentUser() {
+        return currentUser;
     }
 
     /**
      * 获取指定Cookie的值
      *
-     * @param cookieName   cookie名字
+     * @param cookieName cookie名字
      * @param defaultValue 缺省值
      * @return
      */
@@ -61,91 +51,9 @@ public final class WebUtil {
     }
 
     /**
-     * 获取用户名同时更新token
-     *
-     * @param token
-     * @return
-     */
-    public static final String getUsernameByToken(String token) {
-        String result = (String)CacheUtil.getCache().get("REDIS_SESSION:TOKEN:" + token);
-        if (result != null) {
-            JSONObject o = JSONObject.parseObject(result);
-            if (o != null) {
-                String username = o.getString("username");
-                String userId = o.getString("id");
-                //设置当前用户
-                WebUtil.CURRENT_USER_ID = Long.valueOf(userId);
-                WebUtil.CURRENT_USER_NAME = username;
-                //更新token和username
-                WebUtil.updateRedisKey("REDIS_SESSION:TOKEN:" + token);
-                WebUtil.updateRedisKey("REDIS_SESSION:USERNAME:" + username);
-                WebUtil.updateRedisKey("REDIS_SESSION:USERID:" + username);
-                return username;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * 获取用户名同时更新token
-     *
-     * @param username
-     * @return
-     */
-    public static final String getTokenByUsername(String username) {
-        String result = (String)CacheUtil.getCache().get("REDIS_SESSION:USERNAME:" + username);
-        return result;
-    }
-
-    public static final void updateRedisKey(String key) {
-        CacheUtil.getCache().expire(key, 1800);
-    }
-
-    /** 保存当前用户 */
-//	public static final void saveCurrentUser(Object user) {
-//		setSession(Constants.CURRENT_USER, user);
-//	}
-//
-//	/** 获取当前用户 */
-//	public static final Long getCurrentUser() {
-//		Subject currentUser = SecurityUtils.getSubject();
-//		if (null != currentUser) {
-//			try {
-//                Session session = currentUser.getSession();
-//                if (null != session) {
-//                	return (Long) session.getAttribute(Constants.CURRENT_USER);
-//                }
-//            } catch (InvalidSessionException e) {
-//                logger.error(e);
-//            }
-//		}
-//		return null;
-//	}
-//
-//	/**
-//	 * 将一些数据放到ShiroSession中,以便于其它地方使用
-//	 *
-//	 * @see 比如Controller,使用时直接用HttpSession.getAttribute(key)就可以取到
-//	 */
-//	public static final void setSession(Object key, Object value) {
-//		Subject currentUser = SecurityUtils.getSubject();
-//		if (null != currentUser) {
-//			Session session = currentUser.getSession();
-//			if (null != session) {
-//				session.setAttribute(key, value);
-//			}
-//		}
-//	}
-//
-//	/** 移除当前用户 */
-//	public static final void removeCurrentUser(HttpServletRequest request) {
-//		request.getSession().removeAttribute(Constants.CURRENT_USER);
-//	}
-
-    /**
      * 获得国际化信息
      *
-     * @param key     键
+     * @param key 键
      * @param request
      * @return
      */
@@ -164,9 +72,7 @@ public final class WebUtil {
         return WebUtils.getParametersStartingWith(request, null);
     }
 
-    /**
-     * 获取客户端IP
-     */
+    /** 获取客户端IP */
     public static final String getHost(HttpServletRequest request) {
         String ip = request.getHeader("X-Forwarded-For");
         if (StringUtils.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
@@ -197,5 +103,83 @@ public final class WebUtil {
             }
         }
         return ip;
+    }
+
+    /** 获取当前用户 */
+    public static final SysUser getCurrentUser(HttpServletRequest request) {
+        try {
+            return WebUtil.getUserByToken(getCurrentToken(request));
+        } catch (InvalidSessionException e) {
+            logger.error(e);
+        }
+        return null;
+    }
+
+    /** 获取当前TOken */
+    public static final String getCurrentToken(HttpServletRequest request) {
+        return WebUtil.getCookieValue(request, Constants.TOKEN, null);
+    }
+
+    public static final SysUser getUserByToken(String token) {
+        if(StringUtils.isNotBlank(token)) {
+            return (SysUser)CacheUtil.getCache().get(Constants.REDIS_SESSION_TOKEN + token);
+        } else {
+            return null;
+        }
+
+    }
+
+    public static String getUsernameByToken(String token) {
+        SysUser user = getUserByToken(token);
+        if (user != null) {
+            String username = user.getUsername();
+            //刷新，防止正在使用的用户过期
+            CacheUtil.getCache().expire(Constants.REDIS_SESSION_TOKEN + token, 1800);
+            CacheUtil.getCache().expire(Constants.REDIS_SESSION_ID + user.getId(), 1800);
+            return username;
+        }
+        return null;
+    }
+
+    public static String getTokenByUserId(Long userId) {
+        String key = Constants.REDIS_SESSION_ID + userId;
+        return (String)CacheUtil.getCache().get(key);
+    }
+
+    public static void clear(String token) {
+        WebUtil.clear(token, null);
+    }
+
+    public static void clear(Long userId) {
+        WebUtil.clear(null, userId);
+    }
+
+    public static void clear(String token, Long userId) {
+        if(StringUtils.isNotBlank(token)) {
+            CacheUtil.getCache().del(Constants.REDIS_SESSION_TOKEN + token);
+        }
+        if(userId != null) {
+            CacheUtil.getCache().del(Constants.REDIS_SESSION_ID + userId);
+        }
+    }
+
+    /**
+     * 获取在线用户数量
+     * @return
+     */
+    public static Integer getAllUserNumber() {
+        String key = Constants.REDIS_SESSION_TOKEN + "*";
+        Set<Object> online = CacheUtil.getCache().getAll(key);
+        return online.size();
+    }
+
+    /**
+     * 获取所有在线用户实体
+     * @return
+     */
+    public static Set<Object> getAllUser() {
+        String key = Constants.REDIS_SESSION_TOKEN + "*";
+        Set<Object> online = CacheUtil.getCache().getAll(key);
+        return online;
     }
 }

@@ -1,9 +1,9 @@
+com\loozb\mapper\sys\SysEventMapper.class
 com\loozb\service\blog\impl\TbMessageServiceImpl.class
 com\loozb\service\sys\SysResourceService.class
-com\loozb\mapper\sys\SysLogMapper.class
+com\loozb\service\sys\impl\SysEventServiceImpl.class
 com\loozb\service\blog\TbClassificationService.class
 com\loozb\service\sys\SysTableService.class
-com\loozb\service\sys\SysLogService.class
 com\loozb\mapper\blog\TbCommentMapper.class
 com\loozb\service\sys\impl\SysUserServiceImpl.class
 com\loozb\service\sys\SysUserService.class
@@ -30,8 +30,9 @@ com\loozb\service\blog\impl\TbClassificationServiceImpl.class
 com\loozb\mapper\sys\SysTableMapper.class
 com\loozb\mapper\sys\SysOrganMapper.class
 com\loozb\service\blog\TbArticleService.class
-com\loozb\service\sys\impl\SysLogServiceImpl.class
+com\loozb\service\sys\impl\SysSessionServiceImpl.class
 com\loozb\service\sys\impl\SysTableServiceImpl.class
+com\loozb\service\sys\SysEventService.class
 com\loozb\service\sys\SysRoleResourcePermissionService.class
 com\loozb\service\blog\TbCommentService.class
 com\loozb\service\sys\impl\SysRoleResourcePermissionServiceImpl.class
@@ -42,4 +43,6 @@ com\loozb\mapper\sys\SysRoleResourcePermissionMapper.class
 com\loozb\service\sys\SysPermissionService.class
 com\loozb\mapper\blog\TbMessageMapper.class
 com\loozb\service\sys\impl\TbTaskTimerServiceImpl.class
+com\loozb\service\sys\SysSessionService.class
+com\loozb\mapper\sys\SysSessionMapper.class
 com\loozb\service\sys\TbTaskTimerService.class

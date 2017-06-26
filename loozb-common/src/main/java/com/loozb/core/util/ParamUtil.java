@@ -21,6 +21,8 @@ public class ParamUtil {
     }
 
     public static Map<String,Object> getMap() {
-        return new HashMap<String, Object>();
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("available", "1");
+        return param;
     }
 }

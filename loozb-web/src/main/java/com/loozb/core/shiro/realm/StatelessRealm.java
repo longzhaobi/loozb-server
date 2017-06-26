@@ -1,9 +1,9 @@
 package com.loozb.core.shiro.realm;
 
-import com.baomidou.mybatisplus.plugins.Page;
 import com.loozb.core.shiro.token.StatelessToken;
+import com.loozb.core.util.ParamUtil;
 import com.loozb.core.util.WebUtil;
-import com.loozb.model.sys.SysUser;
+import com.loozb.model.SysUser;
 import com.loozb.service.sys.SysAuthService;
 import com.loozb.service.sys.SysUserService;
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +19,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,7 +30,7 @@ import java.util.Set;
 @Component
 public class StatelessRealm extends AuthorizingRealm {
 
-    private static final Logger log = Logger.getLogger(StatelessRealm.class);
+    private static final Logger logger = Logger.getLogger(StatelessRealm.class);
 
     @Autowired
     private SysAuthService sysAuthService;
@@ -48,17 +48,19 @@ public class StatelessRealm extends AuthorizingRealm {
             PrincipalCollection principals) {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         String username = (String) principals.getPrimaryPrincipal();
-        if (StringUtils.isNotBlank(username)) {
-            Map<String, Object> params = new HashMap<String, Object>();
-            params.put("available", "1");
-            params.put("account", username);
-            Page<?> pageInfo = sysUserService.query(params);
-            if (pageInfo.getTotal() == 1) {
-                SysUser user = (SysUser) pageInfo.getRecords().get(0);
-                Set<String> roles = (Set<String>) sysAuthService.findRoles(user.getId());
+        Map<String, Object> params = ParamUtil.getMap();
+        params.put("account", username);
+        logger.info("{} execute sysUserService.queryList start...");
+        List<?> list = sysUserService.queryList(params);
+        logger.info("{} execute sysUserService.queryList end.");
+        if (list.size() == 1) {
+            SysUser user = (SysUser) list.get(0);
+            if (user != null && StringUtils.isNotBlank(user.getUsername())) {
+
+                Set<String> roles = sysAuthService.findRoles(user.getId());
 
                 //获取权限信息
-                Set<String> permissions = (Set<String>) sysAuthService.findPermissions(user.getId());
+                Set<String> permissions = sysAuthService.findPermissions(user.getId());
                 // 添加用户权限
                 authorizationInfo.setRoles(roles);
                 authorizationInfo.setStringPermissions(permissions);
