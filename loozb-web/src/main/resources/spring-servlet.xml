@@ -40,7 +40,7 @@
 			</bean>
 		</mvc:message-converters>
 	</mvc:annotation-driven>
-	<!-- 拦截器 -->
+	<!-- 拦截器
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
@@ -59,7 +59,7 @@
 				</property>
 			</bean>
 		</mvc:interceptor>
-	</mvc:interceptors>
+	</mvc:interceptors> -->
 	<!-- AOP式方法级权限检查  -->
 	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
 		depends-on="lifecycleBeanPostProcessor">
